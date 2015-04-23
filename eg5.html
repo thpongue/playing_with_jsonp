@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8"/>
+		<script src='angular.js'></script>
+	</head>
+	<body>
+		<script>
+			// tell angular that our ng-app is a module
+			angular.module('app', []);
+			(function() {
+				function ctrl($http) {
+					$http.jsonp('localDataWithAngularFriendlyCallbackSecondAttempt.js')
+					.success(function(data, status, headers, config) {
+						console.log("local call success");
+					})
+					.error(function(data, status, headers, config) {
+						console.log("local call failure");
+					});
+				}
+				angular.module('app').controller('ctrl', ctrl);
+			}());
+		</script>
+		<div ng-controller="ctrl">
+		</div>
+		<p>Now:
+		jsoncallback=angular.callbacks._0
+
+		... and it works. What a pain in the ass.
+	</body>
+</html>

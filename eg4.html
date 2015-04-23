@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8"/>
+		<script src='angular.js'></script>
+	</head>
+	<body>
+		<script>
+			// tell angular that our ng-app is a module
+			angular.module('app', []);
+			(function() {
+				function ctrl($http) {
+					$http.jsonp('localDataWithAngularFriendlyCallbackFirstAttempt.js')
+					.success(function(data, status, headers, config) {
+						console.log("local call success");
+					})
+					.error(function(data, status, headers, config) {
+						console.log("local call failure");
+					});
+				}
+				angular.module('app').controller('ctrl', ctrl);
+			}());
+		</script>
+		<div ng-controller="ctrl">
+		</div>
+		<p>Here we're calling our local object - as with the previous example we change our local json call:
+		jsoncallback=processLocalJSON to
+		jsoncallback=JSON_CALLBACK
+
+		We can see that the local call doesn't work - JSON_CALLBACK is undefined. This is because angular doesn't really want to call JSON_CALLBACK. It messes about with your request as below:
+		</p>
+		<code>
+    url.replace('JSON_CALLBACK', 'angular.callbacks.' + callbackId),
+		</code>
+		
+		Hence our mocked json needs to make a call to: angular.callbacks._0. Yuck.
+
+		<p>This forces us to cheat by hardcoding our mocks with what angular changes our request to with the ongoing risk that the callbackId will change - and means that angular itself could change in the future and break our tests - by giving angular what it wants (note there are lots of other ways around this)</p>
+
+		<p>Anyway, <a href="eg5.html">this is the working version</a></p>
+	</body>
+</html>

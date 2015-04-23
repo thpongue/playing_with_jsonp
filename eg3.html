@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8"/>
+		<script src='angular.js'></script>
+	</head>
+	<body>
+		<script>
+			// tell angular that our ng-app is a module
+			angular.module('app', []);
+			(function() {
+				function ctrl($http) {
+					$http.jsonp('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=JSON_CALLBACK&tags=monkey&tagmode=any&format=json')
+					.success(function(data, status, headers, config) {
+						console.log("server call success");
+					})
+					.error(function(data, status, headers, config) {
+						console.log("server call failure");
+					});
+				}
+				angular.module('app').controller('ctrl', ctrl);
+			}());
+		</script>
+		<div ng-controller="ctrl">
+		</div>
+		<p>I've split this next bit up into 2 files as I've found an issue with angular here and want to investigate a little. Here I'm just looking at loading json from our server.
+		Hence we change the following portion of our url (which in turn updates the function call returned)
+		jsoncallback=processRemoteJSON to
+		jsoncallback=JSON_CALLBACK
+		We also remove our custom callbacks
+		Looking at the console output we see that this triggers the success callback
+		</p>
+		<p>
+		<a href="eg4.html">this example shows our attempt to use angular to load a local json file</a>
+		</p>
+	</body>
+</html>
