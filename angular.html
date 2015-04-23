@@ -2,7 +2,12 @@
 <html ng-app="app">
 	<head>
 		<meta charset="utf-8"/>
+		<script src='angular.js'></script>
+	</head>
+	<body>
 		<script>
+			// tell angular that our ng-app is a module
+			angular.module('app', []);
 			function processRemoteJSON (json) {
 				console.log("data received from server");
 				console.log(json);
@@ -11,14 +16,6 @@
 				console.log("data received from local file");
 				console.log(json);
 			};
-		</script>
-		<script src='angular.js'></script>
-	</head>
-	<body>
-		<script>
-			// tell angular that our ng-app is a module
-			angular.module('app', []);
-
 			(function() {
 				function ctrl($http) {
 					$http.jsonp('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=processRemoteJSON&tags=monkey&tagmode=any&format=json');
