@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<script>
+			function processRemoteJSON (json) {
+				console.log("data received from server");
+				console.log(json);
+			};
+			function processLocalJSON (json) {
+				console.log("data received from local file");
+				console.log(json);
+			};
+		</script>
+		<script src='http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=processRemoteJSON&tags=monkey&tagmode=any&format=json'></script>
+
+		<script src='localData.js'></script>
+	</head>
+	<body>
+	<p>This is a crude example of json in action. Take a look at the console output - this shows json working from remote and local files. All we need is a script tag with the appropriate function and the ability to load a script which calls that function. <a href="angular.html">Now lets try the same thing in Angular</a></p>
+	</body>
+</html>

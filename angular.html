@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8"/>
+		<script>
+			function processRemoteJSON (json) {
+				console.log("data received from server");
+				console.log(json);
+			};
+			function processLocalJSON (json) {
+				console.log("data received from local file");
+				console.log(json);
+			};
+		</script>
+		<script src='angular.js'></script>
+	</head>
+	<body>
+		<script>
+			// tell angular that our ng-app is a module
+			angular.module('app', []);
+
+			(function() {
+				function ctrl($http) {
+					$http.jsonp('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=processRemoteJSON&tags=monkey&tagmode=any&format=json');
+					$http.jsonp('localData.js');
+				}
+				angular.module('app').controller('ctrl', ctrl);
+			}());
+		</script>
+		<div ng-controller="ctrl">
+		</div>
+		<p>Having looked at a <a href="basic.html">basic example</a> this shows the same thing attempted in angular</p>
+	</body>
+</html>
